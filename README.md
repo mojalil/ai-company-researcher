@@ -12,6 +12,10 @@ Welcome to **AI Company Researcher**, the next-generation tool for businesses se
 - **User-Friendly Interface:** Easily navigate through our information-rich platform with our sleek Next.js frontend.
 - **Robust API:** Seamlessly integrate our data into your systems with our Python Flask backend.
 
+## Architechture
+
+![Screenshot 2024-03-28 at 11 41 23](https://github.com/mojalil/ai-company-researcher/assets/10572843/19e12f08-908e-4ace-8f62-ea088146bbbe)
+
 ## Getting Started
 
 ### Prerequisites
