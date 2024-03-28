@@ -1,9 +1,16 @@
 from textwrap import dedent
 from crewai import Agent, Task
 
+from job_manager import append_event
+from models import PositionInfo, PositionInfoList
+
 class CompanyResearchTask():
     def __init__(self, job_id: str):
         self.job_id = job_id
+
+    def append_event_callback(self, task_output):
+        print(f'Appending for job {self.job_id} with output: {task_output}')
+        append_event(self.job_id, task_output)
 
     def manage_research(self, agent: Agent, companies: list[str], positions: list[str], tasks: list[Task]):
         return Task(
@@ -27,7 +34,7 @@ class CompanyResearchTask():
             description=dedent(f"""Research the position {positions} for the {company} company. 
                 For each position, 
                                
-                               nd the URLs for 3 recent blog articles and the URLs and titles for
+                Find the URLs for 3 recent blog articles and the URLs and titles for
                 3 recent YouTube interviews for the person in each position.
                 Return this collected information in a JSON object.
                                
