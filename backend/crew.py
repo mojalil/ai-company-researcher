@@ -38,7 +38,7 @@ class CompanyReseachCrew:
             verbose=2
         )
 
-    def kickoff_crew(self):
+    def kickoff(self):
         if not self.crew:
             print(f"Crew with job_id: {self.job_id} not setup")
             return
