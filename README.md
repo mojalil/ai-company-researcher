@@ -42,13 +42,28 @@ Follow these steps to get AI Company Researcher up and running on your local mac
     poetry install
     ```
 
-3. **Start the Flask Backend**
+3. **Activate python environment**
+
+    ```
+    poetry shell
+    ```
+
+    If you're using vscode, make sure that it is using the right environment (you can get this from the terminal with poerty shell)
+
+
+4. **Start the Flask Backend**
+ 
+    ```
+    python api.py
+    ```
+
+or
 
     ```
     poetry run flask run
     ```
 
-4. **Install and Run the Next.js Frontend**
+5. **Install and Run the Next.js Frontend**
 
     In a new terminal window, navigate to the frontend directory, install dependencies, and start the server:
 
