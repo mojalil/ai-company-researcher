@@ -1,0 +1,16 @@
+# this contains both a python backend and a javascript frontend
+
+# the python backend is a simple flask app that serves the frontend and provides an API for the frontend to interact with
+
+# the javascript frontend is a simple react app that displays a list of items and allows the user to add new items
+
+# Ignore python folders in .gitignore under /backend
+
+__pycache__/
+venv/
+*.pyc
+.env
+
+# Ignore node_modules in .gitignore under /frontend 
+node_modules/
+
