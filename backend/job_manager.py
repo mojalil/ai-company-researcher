@@ -13,13 +13,14 @@ class Event:
 class Job:
     status: str
     events: List[Event]
+    result: str
 
 jobs_lock = Lock()
 jobs: Dict[str, 'Job'] = {}
 
 def append_event(job_id: str, event_data: str):
     with jobs_lock:
-        if job_id in jobs:
+        if job_id not in jobs:
             jobs[job_id] = Job(
                 status='STARTED',
                 events=[],

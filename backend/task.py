@@ -10,7 +10,7 @@ class CompanyResearchTask():
 
     def append_event_callback(self, task_output):
         print(f'Appending for job {self.job_id} with output: {task_output}')
-        append_event(self.job_id, task_output)
+        append_event(self.job_id, task_output.exported_output)
 
     def manage_research(self, agent: Agent, companies: list[str], positions: list[str], tasks: list[Task]):
         return Task(
