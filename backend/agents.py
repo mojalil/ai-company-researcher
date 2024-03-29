@@ -1,11 +1,14 @@
 from typing import List
 from crewai import Agent
+from crewai_tools import SerperDevTool
 from langchain_openai import ChatOpenAI
-class CompanyResearchAgents():
-    def __init__(self, company):
-        # TODO: Add tools
-        print(f'CompanyResearchAgents for {company}')
 
+from tools.youtube_search_tools import YoutubeVideoSearchTool
+class CompanyResearchAgents():
+    def __init__(self):
+
+        self.youtubeSearchTool = YoutubeVideoSearchTool()
+        self.searchInternetTool = SerperDevTool()
         self.llm = ChatOpenAI(model="gpt-4-turbo-preview")
 
     def research_manager(self, companies: List[str], positions: List[str]) -> Agent:

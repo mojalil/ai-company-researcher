@@ -13,13 +13,11 @@ class CompanyReseachCrew:
         print(f"Companies: {companies}")
         print(f"Positions: {positions}")
 
-        # TODO: Setup agents
         agents = CompanyResearchAgents()
         research_manager = agents.research_manager(companies, positions)
         company_research_agent = agents.company_research_agent()
-        # TODO: Setup task
-
-        tasks = CompanyResearchTask()
+        
+        tasks = CompanyResearchTask(self.job_id)
 
         company_research_task = [
             tasks.company_research(company_research_agent, company, positions)
