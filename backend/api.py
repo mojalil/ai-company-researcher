@@ -29,6 +29,7 @@ def kickoff_crew(job_id: str, companies: list[str], positions: list[str]):
         with jobs_lock:
             jobs[job_id].status = "ERROR"
             jobs[job_id].result = str(e)
+            
 
     with jobs_lock:
         jobs[job_id].status = "COMPLETED"
