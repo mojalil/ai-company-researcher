@@ -1,5 +1,6 @@
 "use client";
 
+import EventLog from "@/components/EventLog";
 import InputSection from "@/components/InputSection";
 import useCrewJob from "@/hooks/useCrewJob";
 
@@ -38,6 +39,7 @@ export default function Home() {
           </div>
           {/* FINAL OUTPUT */}
           {/* EVENT LOG */}
+          <EventLog events={crewJob.events} />
         </div>
       </div>
     </div>
