@@ -7,26 +7,25 @@ export default function Home() {
   const [companies, setCompanies] = useState<string[]>([]);
   const [positions, setPositions] = useState<string[]>([]);
   return (
-<div className="bg-white min-h-screen text-black">
-<div className="flex">
-  <div className="w-1/2 p-4">
-    <InputSection
-    title="Companies"
-    placeholder="Add a company"
-    data={null}
-    setData={setCompanies}
-    />
+    <div className="bg-white min-h-screen text-black">
+      <div className="flex">
+        <div className="w-1/2 p-4">
+          <InputSection
+            title="Companies"
+            placeholder="Add a company"
+            data={null}
+            setData={setCompanies}
+          />
 
-<InputSection
-    title="Positions"
-    placeholder="Add a position"
-    data={null}
-    setData={setPositions}
-    />
-  </div>
-  <div></div>
-
-</div>
-</div>
+          <InputSection
+            title="Positions"
+            placeholder="Add a position"
+            data={null}
+            setData={setPositions}
+          />
+        </div>
+        <div></div>
+      </div>
+    </div>
   );
 }
