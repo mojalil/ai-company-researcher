@@ -10,6 +10,7 @@ __pycache__/
 venv/
 *.pyc
 .env
+logs/
 
 # Ignore node_modules in .gitignore under /frontend 
 node_modules/
