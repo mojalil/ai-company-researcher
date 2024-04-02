@@ -13,14 +13,14 @@ export default function Home() {
           <InputSection
             title="Companies"
             placeholder="Add a company"
-            data={null}
+            data={companies}
             setData={setCompanies}
           />
 
           <InputSection
             title="Positions"
             placeholder="Add a position"
-            data={null}
+            data={positions}
             setData={setPositions}
           />
         </div>

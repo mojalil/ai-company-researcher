@@ -43,7 +43,15 @@ function InputSection({
             className="bg-green-500 hover:bg-green-700 text-white py-2 rounded-lg px-4"
             >Add</button>
         </div>
-        <ul></ul>
+        <ul>
+            {data?.map((item, index) => (
+             <li key={index} className="flex items-center mt-2">
+                    <span className="p-2 border border-gray-300 rounded-lg w-full mr-2 flex-grow">{item}</span>
+                    <button onClick={() => handleRemoveItem(index)} className="bg-red-500 hover:bg-red-700 text-white py-2 rounded-lg px-4">Remove</button>
+                </li>    
+            ))}
+            
+        </ul>
     </div>
   );
 }
