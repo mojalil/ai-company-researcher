@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 type EventType = {
@@ -28,9 +28,48 @@ function useCrewJob() {
   const [companies, setCompanies] = useState<string[]>([]);
   const [positions, setPositions] = useState<string[]>([]);
   const [events, setEvents] = useState<EventType[]>([]);
-  const [positionInfo, setPositionInfo] = useState<PositionInfoList[]>([]);
+  const [positionInfo, setPositionInfo] = useState<PositionInfo[]>([]);
   const [running, setRunning] = useState<boolean>(false);
   const [currentJobId, setCurrentJobId] = useState<string>("");
+
+  useEffect(() => {
+    let intervalId: number;
+    const fetchJobStatus = async () => {
+      try {
+        const response = await axios.get<{
+          result: { positions: PositionInfo[] };
+          events: EventType[];
+          status: string;
+        }>(`http://localhost:3001/api/crew/${currentJobId}`);
+
+        console.log(response.data);
+
+        const { result, events: fetchedEvents, status } = response.data;
+
+        setEvents(fetchedEvents);
+
+        if (result) {
+          console.log(result);
+          setPositionInfo(result.positions);
+        }
+
+        if (status === "COMPLETE" || status === "ERROR") {
+          if (intervalId) clearInterval(intervalId);
+          setRunning(false);
+          toast.success(`Job with id ${currentJobId} completed`);
+        }
+      } catch (error) {
+        console.error(error);
+        setCurrentJobId("");
+        setRunning(false);
+        toast.error(`Job with id ${currentJobId} failed to complete`);
+      }
+    };
+
+    if (currentJobId !== "") {
+      intervalId = setInterval(fetchJobStatus, 1000) as unknown as number;
+    }
+  }, [currentJobId]);
 
   const startJob = async () => {
     // clean up the old job
@@ -66,7 +105,10 @@ function useCrewJob() {
     setCompanies,
     positions,
     setPositions,
-    startJob
+    startJob,
+    events,
+    positionInfo,
+    running,
   };
 }
 
