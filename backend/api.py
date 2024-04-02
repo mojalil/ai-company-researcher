@@ -3,11 +3,13 @@ import json
 from threading import Thread
 from uuid import uuid4
 from flask import Flask, abort, jsonify, request
+from flask_cors import CORS
 
 from job_manager import append_event, jobs_lock, jobs, Event
 from crew import CompanyReseachCrew
 
 app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
 def kickoff_crew(job_id: str, companies: list[str], positions: list[str]):

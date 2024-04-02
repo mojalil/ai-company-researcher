@@ -2,7 +2,6 @@
 
 import InputSection from "@/components/InputSection";
 import useCrewJob from "@/hooks/useCrewJob";
-import { useState } from "react";
 
 export default function Home() {
   const crewJob = useCrewJob();
@@ -28,7 +27,9 @@ export default function Home() {
         <div className="w-1/2 p-4 flex flex-col">
           <div className=" justify-between flex items-center mb-4">
             <h2 className="text-2xl font-bold">Output</h2>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 rounded-lg px-4">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 rounded-lg px-4"
+            onClick={crewJob.startJob}
+            >
               Start
             </button>
           </div>
