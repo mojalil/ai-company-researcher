@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react'
 
 type EventType = {
@@ -37,7 +38,18 @@ function useCrewJob() {
         setRunning(true);
 
         // request to our backend
-
+        try {
+            const response = await axios.post<{job_id: string}>("http://localhost:3001/api/crew-job", {
+                companies,
+                positions,
+            });
+            setCurrentJobId(response.data.job_id);
+        } catch (error) {
+            console.error(error);
+            setCurrentJobId("");
+            setRunning(false);
+        }
+    }
         // update out state
     }
   return {
