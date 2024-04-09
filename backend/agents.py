@@ -58,6 +58,39 @@ class CompanyResearchAgents():
 
     # Agents to get company funding, funding rounds, revenue, employees, acquisition, IPO, and competitors
 
+    def funding_details_agent(self) -> Agent:
+        return Agent(
+            role="Funding Details Agent",
+            goal="""Extract detailed information on each funding round for a given company, including the round type 
+            (e.g., Seed, Series A), the amount raised, the names of the investors, and the date of the funding round. 
+            Structure this information in a detailed report, presented as a list of JSON objects where each object 
+            represents a funding round.""",
+            backstory="""As a Funding Details Agent, your expertise lies in unraveling the financial journey of startups. 
+            You meticulously comb through financial databases, news articles, and investment trackers to compile the most 
+            accurate and up-to-date funding data. Your reports illuminate the financial path a startup has navigated, showcasing 
+            the confidence and investment it has garnered from the financial community over time.""",
+            tools=[self.searchInternetTool],
+            llm=self.llm,
+            verbose=True,
+            allow_delegation=True,
+            memory=True,  # Considering memory might help in keeping track of previous searches and data extracted.
+            goal_specifics={
+                "expected_output": """A list of JSON objects, each representing a funding round with the following keys: 
+                'round_type', 'amount_raised_usd', 'investors', and 'date'. Example format:
+                [
+                    {
+                        'round_type': 'Seed',
+                        'amount_raised_usd': 2000000,
+                        'investors': ['Investor A', 'Investor B'],
+                        'date': '2021-06-15'
+                    },
+                    ...
+                ]""",
+                "output_format": "JSON",
+                "data_sources": ["financial databases", "official press releases", "trusted news outlets"]
+            }
+        )
+
     def company_funding_agent(self) -> Agent:
         return Agent(
             role="Company Funding Agent",
