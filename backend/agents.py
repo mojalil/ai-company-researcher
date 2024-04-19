@@ -1,6 +1,6 @@
 from typing import List
 from crewai import Agent
-from crewai_tools import SerperDevTool
+from crewai_tools import SerperDevTool, ScrapeWebsiteTool
 from langchain_openai import ChatOpenAI
 
 from tools.youtube_search_tools import YoutubeVideoSearchTool
@@ -9,6 +9,8 @@ class CompanyResearchAgents():
 
         self.youtubeSearchTool = YoutubeVideoSearchTool()
         self.searchInternetTool = SerperDevTool()
+        self.scrapeWebsiteTool = ScrapeWebsiteTool()
+    
         self.llm = ChatOpenAI(model="gpt-4-turbo-preview")
 
     def research_manager(self, companies: List[str], positions: List[str]) -> Agent:
@@ -69,7 +71,7 @@ class CompanyResearchAgents():
             You meticulously comb through financial databases, news articles, and investment trackers to compile the most 
             accurate and up-to-date funding data. Your reports illuminate the financial path a startup has navigated, showcasing 
             the confidence and investment it has garnered from the financial community over time.""",
-            tools=[self.searchInternetTool],
+            tools=[self.searchInternetTool, self.scrapeWebsiteTool],
             llm=self.llm,
             verbose=True,
             allow_delegation=True,
