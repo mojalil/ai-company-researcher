@@ -6,7 +6,7 @@ from flask import Flask, abort, jsonify, request
 from flask_cors import CORS
 
 from job_manager import append_event, jobs_lock, jobs, Event
-from crew import CompanyReseachCrew
+from crew import CompanyFundingCrew, CompanyReseachCrew
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -18,10 +18,18 @@ def kickoff_crew(job_id: str, companies: list[str], positions: list[str]):
     )
 
     results = None
+    funding_results = None
     try:
+
+        # Setup the Research Crew
         company_research_crew = CompanyReseachCrew(job_id)
         company_research_crew.setup_crew(companies, positions)
         results = company_research_crew.kickoff()
+
+        # Setup the Funding Crew
+        company_funding_crew = CompanyFundingCrew(job_id)
+        company_funding_crew.setup_crew(companies)
+        funding_results = company_funding_crew.kickoff()
 
     except Exception as e:
         print(f"CREW FAILED : with error {str(e)} and job_id: {job_id}")
@@ -33,7 +41,7 @@ def kickoff_crew(job_id: str, companies: list[str], positions: list[str]):
 
     with jobs_lock:
         jobs[job_id].status = "COMPLETED"
-        jobs[job_id].result = results
+        jobs[job_id].result = [*results, *funding_results]
         jobs[job_id].events.append(
             Event(data="CREW COMPLETED", timestamp=datetime.now())
         )

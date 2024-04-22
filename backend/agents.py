@@ -58,9 +58,32 @@ class CompanyResearchAgents():
             verbose=True
     )
 
+    # Create a funding agent manager that can delegate to other agents
+    def funding_manager(self, companies: List[str]) -> Agent:
+        return Agent(
+            role="Funding Manager",
+            goal=f"""Generate a list of JSON objects containing the funding details for each company in the list.
+             
+                Companies: {companies}
+
+                Important:
+                - The final list of JSON objects must include all companies. Do not leave any out.
+                - If you can't find information for a specific company, fill in the information with the word "MISSING".
+                - Do not generate fake information. Only return the information you find. Nothing else!
+                - Do not stop researching until you find the requested information for each company.
+                - All the companies exist so keep researching until you find the information for each one.
+                """,
+            backstory="""As a Funding Manager, you are responsible for aggregating all the funding information
+                into a list.""",
+            llm=self.llm,
+            tools=[self.searchInternetTool],
+            verbose=True,
+            allow_delegation=True
+        )
+
     # Agents to get company funding, funding rounds, revenue, employees, acquisition, IPO, and competitors
 
-    def funding_details_agent(self) -> Agent:
+    def funding_research_agent(self) -> Agent:
         return Agent(
             role="Funding Details Agent",
             goal="""Extract detailed information on each funding round for a given company, including the round type 
