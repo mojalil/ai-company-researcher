@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "nextjs-crewai-tutorial"
+name = "openanalayst"
 version = "0.1.0"
-description = "Automate YouTube tasks with CrewAI"
+description = "Automate company research with CrewAI"
 authors = ["mo jalil <mohammed.jalil@gmail.com>"]
 
 [tool.poetry.dependencies]
