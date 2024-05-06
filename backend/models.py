@@ -18,3 +18,13 @@ class PositionInfo(BaseModel):
 
 class PositionInfoList(BaseModel):
     positions: List[PositionInfo]
+
+
+class FundingRound(BaseModel):
+    round_type: str
+    amount_raised_usd: int
+    investors: List[str]
+    date: str
+
+class FundingInfoList(BaseModel):
+    funding_rounds: List[FundingRound]

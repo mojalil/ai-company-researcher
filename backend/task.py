@@ -2,7 +2,7 @@ from textwrap import dedent
 from crewai import Agent, Task
 
 from job_manager import append_event
-from models import PositionInfo, PositionInfoList
+from models import FundingInfoList, FundingRound, PositionInfo, PositionInfoList
 
 class CompanyResearchTask():
     def __init__(self, job_id: str):
@@ -55,4 +55,49 @@ class CompanyResearchTask():
             callback=self.append_event_callback,
             output_json=PositionInfo,
             async_execution=True
+        )
+
+class FundingInformationTask:
+    def __init__(self, job_id: str):
+        self.job_id = job_id
+
+    def append_event_callback(self, task_output):
+        print(f'Appending for job {self.job_id} with output: {task_output}')
+        append_event(self.job_id, task_output.exported_output)
+
+    def manage_funding(self, agent: Agent, companies: list[str], tasks: list[Task]):
+        return Task(
+            description=dedent(f"""Based on the list of companies {companies}, use the results from the Funding Information Agent 
+                                  to research and extract detailed funding information for each company. 
+                                  For each company, identify all available funding rounds, including the 
+                                  round type (e.g., Seed, Series A), amount raised, the investors' names, 
+                                  and the date of the funding. Structure this information in a detailed 
+                                  report presented as a list of JSON objects where each object represents a 
+                                  funding round."""),
+            agent=agent,
+            expected_output=dedent(f"""A list of JSON objects, each representing a funding round with 
+                                      the following keys: 'round_type', 'amount_raised_usd', 'investors', 
+                                      and 'date'. Ensure each entry contains accurate and comprehensive 
+                                      details."""),
+            callback=self.append_event_callback,
+            context=tasks,
+            output_json=FundingInfoList
+        )
+
+    def extract_funding_details(self, agent: Agent, companies: list[str]):
+        return Task(
+            description=dedent("""Research and extract detailed funding information for the given companies. 
+                                  For each company, identify all available funding rounds, including the 
+                                  round type (e.g., Seed, Series A), amount raised, the investors' names, 
+                                  and the date of the funding. Structure this information in a detailed 
+                                  report presented as a list of JSON objects where each object represents a 
+                                  funding round."""),
+            agent=agent,
+            expected_output=dedent("""A list of JSON objects, each representing a funding round with 
+                                      the following keys: 'round_type', 'amount_raised_usd', 'investors', 
+                                      and 'date'. Ensure each entry contains accurate and comprehensive 
+                                      details."""),
+            callback=self.append_event_callback,
+            output_json=FundingRound,  # Assuming your framework supports this to specify output should be in JSON format
+            async_execution=True  # Funding information might take time to collect, so async could be beneficial
         )
